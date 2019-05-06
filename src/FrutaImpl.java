@@ -2,11 +2,11 @@ public class FrutaImpl implements Fruta {
 
     public String name;
     public Double price;
-    public double valorPago = 0.0; // By default is 0
 
-    public FrutaImpl() {
+    public double valorPago = 0.0; // Por defeito o valor é 0. As subclasses deverão efectuar o override ao método
+    // valorPago, de outra forma assume-se que é gratuita a fruta.
 
-    }
+    public FrutaImpl(){}
 
     public FrutaImpl(String name, Double price) {
         this.name = name;
@@ -31,5 +31,14 @@ public class FrutaImpl implements Fruta {
 
     public double valorPago() {
         return this.valorPago;
+    }
+
+    @Override
+    public String toString() {
+        return "FrutaImpl{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", valorPago=" + valorPago +
+                '}';
     }
 }

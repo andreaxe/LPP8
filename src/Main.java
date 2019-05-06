@@ -41,7 +41,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextInt();
     }
-
+    public static void valorCompra(FrutaImpl fruit){
+        System.out.println("O valor da sua compra é: " + fruit.valorPago() + '€');
+    }
     public static double fruitWeight(){
         System.out.println("Indique o peso:");
         Scanner scanner = new Scanner(System.in);
@@ -68,36 +70,38 @@ public class Main {
             switch (choice) {
 
                 case 1:
-                    FrutaUnidadeImpl unit = new FrutaUnidadeImpl(Main.fruitName(), fruitQuantity(), fruitPrice());
-                    boughtItems.add(unit);
-                    System.out.println("O valor da sua compra é: " + unit.valorPago());
+                    FrutaUnidadeImpl FrutaUnit = new FrutaUnidadeImpl(Main.fruitName(), fruitQuantity(), fruitPrice());
+                    boughtItems.add(FrutaUnit);
+                    valorCompra(FrutaUnit);
                     break;
                 case 2:
-                    FrutaPesoImpl weight = new FrutaPesoImpl(fruitName(), fruitWeight(), fruitPrice());
-                    boughtItems.add(weight);
-                    System.out.println("O valor da sua compra é: " + weight.valorPago());
+                    FrutaPesoImpl FrutaWeight = new FrutaPesoImpl(fruitName(), fruitWeight(), fruitPrice());
+                    boughtItems.add(FrutaWeight);
+                    valorCompra(FrutaWeight);
                     break;
                 case 3:
-                    FrutaVolumeImpl volume = new FrutaVolumeImpl(fruitName(), fruitVolume(), fruitPrice());
-                    boughtItems.add(volume);
-                    System.out.println("O valor da sua compra é: " + volume.valorPago());
+                    FrutaVolumeImpl FrutaVolume = new FrutaVolumeImpl(fruitName(), fruitVolume(), fruitPrice());
+                    boughtItems.add(FrutaVolume);
+                    valorCompra(FrutaVolume);
                     break;
                 case 4:
                     if (boughtItems.size() > 0) {
                         for (FrutaImpl fruit : boughtItems) {
-                            System.out.println(fruit.getName());
                             cabaz.addFruta(fruit);
                         }
+                        boughtItems.clear();
                         System.out.println("A fruta adquirida foi adicionada com êxito ao cabaz");
                     } else {
                         System.out.println("ERRO: não adquiriu nenhuma fruta!");
                     }
                     break;
                 case 5:
+                    double amount = 0.0;
                     if (boughtItems.size() > 0) {
                         for (FrutaImpl fruit : boughtItems) {
-                            System.out.println(fruit.getName());
+                            amount += fruit.valorPago();
                         }
+                        System.out.println("O valor a pagar é de: " + amount + '€');
                     } else {
                         System.out.println("ERRO: não adquiriu nenhuma fruta!");
                     }
@@ -110,7 +114,7 @@ public class Main {
                 case 8:
                     cabaz.listCabaz();
                 default:
-                    // The user input an unexpected choice.
+                    System.out.println("ERRO: a opção inserida não é válida!");
             }
         }
         while (choice != 0);

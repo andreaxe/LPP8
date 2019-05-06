@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class FrutaVolumeImpl extends FrutaImpl {
 
     public double volume;
@@ -14,8 +16,28 @@ public class FrutaVolumeImpl extends FrutaImpl {
     }
 
     public double valorPago(){
-        this.valorPago = this.volume * price;
+        this.valorPago = this.volume * this.price;
         return this.valorPago;
     }
 
+    public double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FrutaVolumeImpl)) return false;
+        FrutaVolumeImpl that = (FrutaVolumeImpl) o;
+        return Double.compare(that.volume, volume) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(volume);
+    }
 }
