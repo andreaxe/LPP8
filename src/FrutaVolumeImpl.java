@@ -1,30 +1,29 @@
 import java.util.Objects;
 
-public class FrutaVolumeImpl extends FrutaImpl {
+public class FrutaVolumeImpl extends Fruta implements IFruta, Cloneable {
 
-    public double volume;
+    private int volume;
     /**
      *
      * @param name name of the fruit
      * @param volume volume in boxes for example
      * @param price price per volume or number of boxes
      */
-    public FrutaVolumeImpl(String name, double volume, double price){
+    public FrutaVolumeImpl(String name, int volume, double price){
         this.name = name;
         this.volume = volume;
         this.price = price;
     }
 
     public double valorPago(){
-        this.valorPago = this.volume * this.price;
-        return this.valorPago;
+        return this.volume * this.price;
     }
 
     public double getVolume() {
         return volume;
     }
 
-    public void setVolume(double volume) {
+    public void setVolume(int volume) {
         this.volume = volume;
     }
 
@@ -36,8 +35,21 @@ public class FrutaVolumeImpl extends FrutaImpl {
         return Double.compare(that.volume, volume) == 0;
     }
 
+
+    @Override
+    public String toString() {
+        return "Adquiriu " + this.volume + " caixas de " + this.name + " pelo preço unitário de: " + this.price +
+                "€ perfazendo o valor total de: " + this.valorPago() + "€";
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(volume);
+    }
+
+    public Object clone() throws
+            CloneNotSupportedException
+    {
+        return super.clone();
     }
 }

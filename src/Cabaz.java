@@ -3,12 +3,12 @@ import java.util.HashMap;
 
 public class Cabaz {
 
-    ArrayList<FrutaImpl> frutas = new ArrayList<>();
+    ArrayList<IFruta> frutas = new ArrayList<>();
 
     public Cabaz(){
     }
 
-    public void addFruta(FrutaImpl fruta){
+    public void addFruta(IFruta fruta){
         this.frutas.add(fruta);
     }
 
@@ -16,17 +16,21 @@ public class Cabaz {
 
         double total = 0.0;
 
-        for (FrutaImpl fruta: frutas){
+        for (IFruta fruta: frutas){
             total += fruta.valorPago();
         }
 
         return total;
     }
 
+    public boolean isEmpty(){
+        return this.frutas.isEmpty();
+    }
+
     public HashMap priceByFruit(){
 
         HashMap<String, Double> priceByFruit = new HashMap<>();
-        for (FrutaImpl fruta : frutas) {
+        for (IFruta fruta : frutas) {
             priceByFruit.put(fruta.getName(), fruta.valorPago());
         }
         return priceByFruit;
@@ -34,11 +38,11 @@ public class Cabaz {
 
 
     public void listCabaz(){
-        System.out.println("Lista do cabaz");
-        for (FrutaImpl fruit: frutas){
-            System.out.println(fruit.getName());
-        }
+        System.out.println("\nLista do cabaz");
         System.out.println("=============================");
+        for (IFruta fruit: frutas){
+            System.out.println(fruit.getName() + "-" + fruit.valorPago() + "€");
+        }
 
     }
 

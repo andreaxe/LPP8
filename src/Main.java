@@ -1,118 +1,76 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Main {
 
-    public static void menu(){
 
-        System.out.println("\n");
-        System.out.println("MENU");
-        System.out.println("=============================");
-        System.out.println("1: Comprar fruta à unidade");
-        System.out.println("2: Comprar fruta ao peso");
-        System.out.println("3: Comprar fruta ao volume");
-        System.out.println("4: Adicionar a fruta adquirida para o cesto");
-        System.out.println("5: Calcular o preço da fruta");
-        System.out.println("6: Calcular o preço da fruta no cesto");
-        System.out.println("7: Calcular o preço da fruta por item do cesto");
-        System.out.println("8: Listar o cabaz");
-        System.out.println("=============================");
-        System.out.println("0: Sair");
+    public static void main(String[] args) throws CloneNotSupportedException {
 
-        System.out.println("\n");
-        System.out.println("Seleccione uma opção:");
-    }
+        ArrayList<IFruta> boughtItems = new ArrayList<>(); // Para armazenar a fruta que se vai comprando
+        Cabaz cabaz = new Cabaz(); // Armazenar a fruta num cesto
 
-    public static String fruitName(){
-        System.out.println("Seleccione o nome da fruta:");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
-
-    public static Double fruitPrice(){
-        System.out.println("Indique o preço:");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextDouble();
-    }
-
-    public static int fruitQuantity(){
-        System.out.println("Indique a quantidade:");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
-    }
-    public static void valorCompra(FrutaImpl fruit){
-        System.out.println("O valor da sua compra é: " + fruit.valorPago() + '€');
-    }
-    public static double fruitWeight(){
-        System.out.println("Indique o peso:");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextDouble();
-    }
-
-    public static double fruitVolume(){
-        System.out.println("Indique o volume:");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextDouble();
-    }
-
-    public static void main(String[] args) {
-
-        ArrayList<FrutaImpl> boughtItems = new ArrayList<>();
-        Scanner scanner = new Scanner(System.in);
-        int choice = 0;
-        Cabaz cabaz = new Cabaz();
+        int choice;
 
         do {
-            menu();
-            choice = scanner.nextInt();
+            // Definição do menu
+            HelperMenu.compras(boughtItems);
+            HelperMenu.cesto(cabaz);
+            HelperMenu.menu();
+
+            choice = new Scanner(System.in).nextInt();
 
             switch (choice) {
 
                 case 1:
-                    FrutaUnidadeImpl FrutaUnit = new FrutaUnidadeImpl(Main.fruitName(), fruitQuantity(), fruitPrice());
+                    FrutaUnidadeImpl FrutaUnit = new FrutaUnidadeImpl(HelperMenu.fruitName(),
+                            HelperMenu.fruitQuantity(), HelperMenu.fruitPrice());
                     boughtItems.add(FrutaUnit);
-                    valorCompra(FrutaUnit);
                     break;
                 case 2:
-                    FrutaPesoImpl FrutaWeight = new FrutaPesoImpl(fruitName(), fruitWeight(), fruitPrice());
+                    FrutaPesoImpl FrutaWeight = new FrutaPesoImpl(HelperMenu.fruitName(), HelperMenu.fruitWeight(),
+                            HelperMenu.fruitPrice());
                     boughtItems.add(FrutaWeight);
-                    valorCompra(FrutaWeight);
                     break;
                 case 3:
-                    FrutaVolumeImpl FrutaVolume = new FrutaVolumeImpl(fruitName(), fruitVolume(), fruitPrice());
+                    FrutaVolumeImpl FrutaVolume = new FrutaVolumeImpl(HelperMenu.fruitName(), HelperMenu.fruitVolume(),
+                            HelperMenu.fruitPrice());
                     boughtItems.add(FrutaVolume);
-                    valorCompra(FrutaVolume);
                     break;
                 case 4:
                     if (boughtItems.size() > 0) {
-                        for (FrutaImpl fruit : boughtItems) {
+                        for (IFruta fruit : boughtItems) {
                             cabaz.addFruta(fruit);
                         }
-                        boughtItems.clear();
+                        boughtItems.clear(); // reset ao array depois de adicionada a fruta adquirida ao cesto
                         System.out.println("A fruta adquirida foi adicionada com êxito ao cabaz");
                     } else {
                         System.out.println("ERRO: não adquiriu nenhuma fruta!");
                     }
                     break;
                 case 5:
-                    double amount = 0.0;
-                    if (boughtItems.size() > 0) {
-                        for (FrutaImpl fruit : boughtItems) {
-                            amount += fruit.valorPago();
-                        }
-                        System.out.println("O valor a pagar é de: " + amount + '€');
-                    } else {
-                        System.out.println("ERRO: não adquiriu nenhuma fruta!");
-                    }
-                    break;
-                case 6:
                     System.out.println(cabaz.totalPrice());
                     break;
-                case 7:
-                    System.out.println(cabaz.priceByFruit());
+                case 6:
+                    if(cabaz.isEmpty()){
+                        System.out.println("O cabaz encontra-se vazio!");
+                    }
+                    else {
+                        System.out.println(cabaz.priceByFruit());
+                    }
+                    break;
                 case 8:
-                    cabaz.listCabaz();
+                    List<IFruta> fruitPayments = new ArrayList<>();
+                    FrutaUnidadeImpl unit = new FrutaUnidadeImpl("andre", 10,10.0);
+                    fruitPayments.add(unit);
+
+                    for(IFruta payment:fruitPayments) {
+                        System.out.println(payment.valorPago());
+                    }
+                    break;
+                case 0:
+                    break;
                 default:
                     System.out.println("ERRO: a opção inserida não é válida!");
             }

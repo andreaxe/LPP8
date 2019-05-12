@@ -1,9 +1,8 @@
 import java.util.Objects;
 
-public class FrutaPesoImpl extends FrutaImpl implements Fruta {
+public class FrutaPesoImpl extends Fruta implements IFruta, Cloneable {
 
-    public double weight;
-
+    private double weight;
     /**
      *
      * @param name name of the fruit
@@ -18,8 +17,7 @@ public class FrutaPesoImpl extends FrutaImpl implements Fruta {
 
     public double valorPago(){
 
-        this.valorPago = this.price * this.weight;
-        return this.valorPago;
+        return this.price * this.weight;
     }
 
     public double getWeight() {
@@ -32,12 +30,8 @@ public class FrutaPesoImpl extends FrutaImpl implements Fruta {
 
     @Override
     public String toString() {
-        return "FrutaPesoImpl{" +
-                "weight=" + weight +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", valorPago=" + valorPago +
-                '}';
+        return "Adquiriu " + this.name + " com o peso de " + weight + "kg" + " com o valor por kg de: " + this.price +
+                "€ por:" + this.valorPago() + "€";
     }
 
     @Override
@@ -45,11 +39,20 @@ public class FrutaPesoImpl extends FrutaImpl implements Fruta {
         if (this == o) return true;
         if (!(o instanceof FrutaPesoImpl)) return false;
         FrutaPesoImpl frutaPeso = (FrutaPesoImpl) o;
-        return Double.compare(frutaPeso.weight, weight) == 0;
+        return Double.compare(frutaPeso.weight, weight) == 0 && Double.compare(frutaPeso.price, price) == 0 &&
+                (frutaPeso.name.equals(name));
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(weight);
     }
+
+    public Object clone() throws
+            CloneNotSupportedException
+    {
+        return super.clone();
+    }
+
+
 }
